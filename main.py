@@ -190,7 +190,7 @@ This is for those getting into AI development.
 
 If you're looking for a place to start, here is a good place as any.
 
-Do note that this isn't easy to do development.
+Do note that this isn't easy to do development as it is AI, token parsing, and mapping data plus testing for correctness.
 
 
 """
