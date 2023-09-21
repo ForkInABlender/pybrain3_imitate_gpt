@@ -15,6 +15,8 @@ from pybrain3.datasets import SupervisedDataSet
 from pybrain3.structure import FeedForwardNetwork, FullConnection
 from pybrain3.supervised.trainers import BackpropTrainer
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
+from pybrain3.tools.shortcuts import buildNetwork
+from pybrain3.structure import TanhLayer, LSTMLayer, RecurrentNetwork
 import numpy as np
 
 class FeedForwardLayer(NeuronLayer):
@@ -181,16 +183,30 @@ net.addConnection(FullConnection(prev_layer, outLayer))
 net.sortModules()
 #print(net.activate(tuple([0]*50257)))
 
-# Save the network to a file
-with open('network.xml', 'wb') as f:
-	pickle.dump(net, f)
+###
 
-"""
-This is for those getting into AI development.
-
-If you're looking for a place to start, here is a good place as any.
-
-Do note that this isn't easy to do development as it is AI, token parsing, and mapping data plus testing for correctness.
-
-
-"""
+# Anterior Cingulate Cortex (ACC) Model
+acc_net = RecurrentNetwork()
+acc_net.addInputModule(TanhLayer(500, name='in'))
+acc_net.addModule(TanhLayer(250, name='hidden0'))
+acc_net.addOutputModule(TanhLayer(50, name='out'))
+# Mirror Neuron System Model
+mirror_net = RecurrentNetwork()
+mirror_net.addInputModule(TanhLayer(500, name='in'))
+mirror_net.addModule(TanhLayer(250, name='hidden0'))
+mirror_net.addOutputModule(TanhLayer(50, name='out'))
+# The rest for training
+insula_net = buildNetwork(500, 250, 50, hiddenclass=TanhLayer) 
+frontal_lobe_net = buildNetwork(1200, 600, 120)
+prefrontal_cortex = buildNetwork(1000, 500, 100, hiddenclass=TanhLayer)
+cerebral_cortex = buildNetwork(1000, 500, 100)
+temporal_lobe = buildNetwork(1000, 500, 250, hiddenclass=TanhLayer)
+visual_cortex = buildNetwork(800, 400, 80)
+brocas_area_net = buildNetwork(750, 375, 75)
+wernickes_area_net = buildNetwork(700, 350, 70)
+cerebellum = buildNetwork(700, 350, 70)
+brainstem = buildNetwork(600, 300, 60)
+hippocampus = buildNetwork(250, 125, 50, hiddenclass=LSTMLayer)
+thalamus = buildNetwork(400, 200, 40)
+amygdala = buildNetwork(120, 60, 10, hiddenclass=TanhLayer)
+hypothalamus = buildNetwork(200, 100, 20)
